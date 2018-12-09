@@ -1,10 +1,10 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.24;
 
 /**
         @dev
         author: srihari kapu
-        @sustainy.org
-**/
+        company: sustainy.org
+*/
 
 library SafeMath {
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -41,17 +41,11 @@ library SafeMath {
 }
 
 contract IERC20Token {
-    function name() public constant returns (string) { name; }
-    function symbol() public constant returns (string) { symbol; }
-    function decimals() public constant returns (uint8) { decimals; }
-    function totalSupply() public constant returns (uint256) { totalSupply; }
-    function allowance(address _owner, address _spender) public constant returns (uint256 remaining) { _owner; _spender; remaining; }
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success);
     function approve(address _spender, uint256 _value) public returns (bool success);
 }
 
 contract ERC20Basic {
-  uint256 public totalSupply;
   function balanceOf(address who) public view returns (uint256);
   function transfer(address to, uint256 value) public returns (bool);
   event Transfer(address indexed from, address indexed to, uint256 value);
@@ -81,7 +75,6 @@ contract Ownable {
 }
 
 contract ERC20 is ERC20Basic, IERC20Token {
-  function allowance(address owner, address spender) public view returns (uint256);
   function transferFrom(address from, address to, uint256 value) public returns (bool);
   function approve(address spender, uint256 value) public returns (bool);
   event Approval(address indexed owner, address indexed spender, uint256 value);
@@ -248,9 +241,10 @@ contract PausableToken is StandardToken, Pausable {
   }
 }
 
-contract SKeys is ERC20Token, TokenHolder {
+contract SKeys is PausableToken {
 string public constant name = "Sustainy Keys";
 string public constant symbol = "SKEY";
+uint256 public totalSupply;
 uint256 public constant INITIAL_SUPPLY = 21000000;
 
 constructor(address reserve) public {
